@@ -8,7 +8,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.View;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -38,11 +36,13 @@ public class MultiTouch extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_picture);
+      //  setContentView(R.layout.activity_picture);
 
-//        imageview = new TouchView(this);
-//        imageview.setScaleType(ImageView.ScaleType.MATRIX);
-        imageview = (TouchView) findViewById(R.id.launchedPic);
+        imageview = new TouchView(this);
+        imageview.setScaleType(ImageView.ScaleType.MATRIX);
+        setContentView(imageview);
+
+        //  imageview = (TouchView) findViewById(R.id.launchedPic);
 
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
@@ -57,7 +57,6 @@ public class MultiTouch extends ActionBarActivity {
 
             imageview.setImageURI(uri);
 
-            //setContentView(imageview);
         }
 
     }
@@ -113,14 +112,12 @@ public class MultiTouch extends ActionBarActivity {
       private long startClickTime;
 
       public TouchView(Context context) {
-        super(context);
-        //Bitmap bm=((BitmapDrawable)this.getDrawable()).getBitmap();
+        this(context, null);
     }
 
     public TouchView(Context context, AttributeSet attrs, int defStyle) {
 
         super(context, attrs, defStyle);
-        //Bitmap bm=((BitmapDrawable)this.getDrawable()).getBitmap();
         paint = new Paint();
         paint.setStrokeWidth(10);
         paint.setColor(Color.RED);
@@ -132,13 +129,7 @@ public class MultiTouch extends ActionBarActivity {
 
       public TouchView(Context context, AttributeSet attrs) {
 
-          super(context, attrs);
-          paint = new Paint();
-          paint.setStrokeWidth(10);
-          paint.setColor(Color.RED);
-         // paint.setARGB(150,255,0,0);
-          paint.setStyle(Paint.Style.STROKE);
-          dots = new ArrayList<Point>();
+          this(context, attrs, 0);
       }
 
       @Override
